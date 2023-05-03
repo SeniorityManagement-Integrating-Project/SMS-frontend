@@ -6,10 +6,18 @@ const LoginLogout = () => {
   if (error) return <div>{error.message}</div>;
   if (isLoading) return <div>Loading...</div>;
   return (
-    <div>
-      {!user && <Link href='/api/auth/login'>Login</Link>}
+    <div className='my-3'>
+      {!user && (
+        <Link href='/api/auth/login' className='w-32 px-5 py-2 text-lg text-white rounded-full bg-rose-600'>
+          Login
+        </Link>
+      )}
 
-      {user && <Link href='/api/auth/logout'>Logout</Link>}
+      {user && (
+        <Link href='/api/auth/logout' className='w-32 px-5 py-2 text-lg text-white rounded-full bg-rose-600'>
+          Logout
+        </Link>
+      )}
     </div>
   );
 };
