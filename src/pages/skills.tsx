@@ -5,7 +5,7 @@ import { SkillForm } from '@components/SkillForm';
 const Skills = () => {
   const [skills, setSkills] = useState([]);
   const getSkills = async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/skill/`);
+    const response = await fetch('http://ec2-35-171-27-114.compute-1.amazonaws.com:9000/skill/');
     const data = await response.json();
     setSkills(data);
   };

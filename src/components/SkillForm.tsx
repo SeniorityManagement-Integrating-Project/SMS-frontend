@@ -11,7 +11,7 @@ const SkillForm = ({ onSubmit }: { onSubmit: () => void }) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const createSkill = async () => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/skill/`, {
+      const response = await fetch('http://ec2-35-171-27-114.compute-1.amazonaws.com:9000/skill/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -11,7 +11,7 @@ interface Props {
 const SkillCard = ({ title, description, id, reloadSkills }: Props) => {
   const handleClick = () => {
     const deleteSkill = async () => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/skill/${id}`, {
+      const response = await fetch(`http://ec2-35-171-27-114.compute-1.amazonaws.com:9000/skill/${id}`, {
         method: 'DELETE',
       });
       if (response.status === 200) {

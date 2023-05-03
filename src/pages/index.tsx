@@ -1,3 +1,5 @@
+import Profile from '@pages/profile';
+
 const Home = () => (
   <div>
     <h1>Index Page</h1>
@@ -7,6 +9,7 @@ const Home = () => (
       temporibus magnam, maxime, atque quod aut? Voluptatibus laboriosam atque itaque deleniti aliquam quas quia
       architecto molestias! Doloribus ex molestias fuga.
     </p>
+    <Profile />
   </div>
 );
 
