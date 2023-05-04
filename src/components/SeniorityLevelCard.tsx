@@ -2,6 +2,7 @@ import { Modal } from '@mui/material';
 import React from 'react';
 import { TbCircle, TbCircleCheck, TbForbid2 } from 'react-icons/tb';
 import { SkillDetails } from '@/components/SkillDetails';
+import { SkillRequest } from '@/components/SkillRequest';
 import { useRouter } from 'next/router';
 
 interface Props {
@@ -15,10 +16,15 @@ interface Props {
 export const SeniorityLevelCard = ({ name, description, level, completed, skills }: Props) => {
   const router = useRouter();
   const { employeeId } = router.query;
+  // Skill Details Modal
   const [modalOpen, setModalOpen] = React.useState(false);
-  const [selectedSkill, setSelectedSkill] = React.useState<any>(null); // [skill, setSkill
   const handleOpen = () => setModalOpen(true);
   const handleClose = () => setModalOpen(false);
+  // Skill Request Modal
+  const [modalRequestOpen, setModalRequestOpen] = React.useState(false);
+  const handleOpen2 = () => setModalRequestOpen(true);
+  const handleClose2 = () => setModalRequestOpen(false);
+  const [selectedSkill, setSelectedSkill] = React.useState<any>(null); // [skill, setSkill
 
   const handleSkillClick = (skillId: number) => {
     setSelectedSkill(skillId);
@@ -32,7 +38,17 @@ export const SeniorityLevelCard = ({ name, description, level, completed, skills
     >
       <Modal open={modalOpen} onClose={handleClose}>
         <div className='absolute p-8 -translate-x-1/2 -translate-y-1/2 bg-white rounded-md top-1/2 left-1/2 sm:min-w-[400px]'>
-          <SkillDetails employeeId={Number(employeeId)} skillId={selectedSkill} />
+          <SkillDetails
+            employeeId={Number(employeeId)}
+            skillId={selectedSkill}
+            handleCloseModal={handleClose}
+            handleOpenReqModal={handleOpen2}
+          />
+        </div>
+      </Modal>
+      <Modal open={modalRequestOpen} onClose={handleClose2}>
+        <div className='absolute p-8 bg-white rounded-md -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-[32em]'>
+          <SkillRequest handleCloseReqModal={handleClose2} />
         </div>
       </Modal>
       <h1 className='text-xl font-bold'>
