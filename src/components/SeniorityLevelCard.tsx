@@ -48,7 +48,7 @@ export const SeniorityLevelCard = ({ name, description, level, completed, skills
       </Modal>
       <Modal open={modalRequestOpen} onClose={handleClose2}>
         <div className='absolute p-8 bg-white rounded-md -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-[32em]'>
-          <SkillRequest handleCloseReqModal={handleClose2} />
+          <SkillRequest employeeId={Number(employeeId)} skillId={selectedSkill} handleCloseReqModal={handleClose2} />
         </div>
       </Modal>
       <h1 className='text-xl font-bold'>
