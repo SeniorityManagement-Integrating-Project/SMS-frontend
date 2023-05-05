@@ -7,9 +7,11 @@ import { RequestCard } from '@/components/RequestCard';
 interface Props {
   skillId: number;
   employeeId: number;
+  handleCloseModal: () => void;
+  handleOpenReqModal: () => void;
 }
 
-export const SkillDetails = ({ employeeId, skillId }: Props) => {
+export const SkillDetails = ({ employeeId, skillId, handleCloseModal, handleOpenReqModal }: Props) => {
   const router = useRouter();
   const { data, loading }: { data: any; loading: boolean } = useFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/skill/employee_request/${skillId}/${employeeId}`,
@@ -43,7 +45,14 @@ export const SkillDetails = ({ employeeId, skillId }: Props) => {
       )}
       {!data.employee_requests.some((req: any) => req.approved === true) && (
         <div className='flex justify-center mt-5'>
-          <button type='button' className='underline text-rose-500'>
+          <button
+            type='button'
+            className='underline text-rose-500'
+            onClick={() => {
+              handleCloseModal();
+              handleOpenReqModal();
+            }}
+          >
             Request validation for this skill
           </button>
         </div>
