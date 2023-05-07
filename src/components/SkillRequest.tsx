@@ -17,6 +17,7 @@ const SkillRequest = ({ employeeId, skillId, handleCloseReqModal }: Props) => {
     e.preventDefault();
     /* TODO: Search how to upload a file to AWS S3 and get the URL
      *  To send that URL in the request to the backend
+     *  https://aws.amazon.com/es/blogs/compute/uploading-to-amazon-s3-directly-from-a-web-or-mobile-application/
      *  https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/welcome.html
      * */
 
@@ -57,7 +58,7 @@ const SkillRequest = ({ employeeId, skillId, handleCloseReqModal }: Props) => {
 
   return (
     <article>
-      <h2 className='text-xl font-bold mb-4 text-center'>Add an attachment to your request</h2>
+      <h2 className='mb-4 text-xl font-bold text-center'>Add an attachment to your request</h2>
       <form onSubmit={handleSubmit} className='flex flex-col items-center'>
         <div className='max-w-md'>
           <label htmlFor='file-input' className='flex flex-col items-center overflow-hidden cursor-pointer'>
@@ -70,7 +71,7 @@ const SkillRequest = ({ employeeId, skillId, handleCloseReqModal }: Props) => {
         </div>
         <button
           type='submit'
-          className='mt-4 px-5 py-2 text-lg text-white rounded-lg bg-rose-600 disabled:opacity-50 disabled:cursor-not-allowed'
+          className='px-5 py-2 mt-4 text-lg text-white rounded-lg bg-rose-600 disabled:opacity-50 disabled:cursor-not-allowed'
           disabled={!file}
         >
           Send the Request

@@ -9,7 +9,12 @@ export const useFetch = <T>(url: string, componentIsReady: boolean) => {
     const abortController = new AbortController();
     if (componentIsReady) {
       fetch(url)
-        .then((response) => response.json())
+        .then((response) => {
+          if (!response.ok) {
+            throw Error(response.statusText);
+          }
+          return response.json();
+        })
         .then((response_data) => setData(response_data))
         .catch((response_error) => setError(response_error))
         .finally(() => setLoading(false));
