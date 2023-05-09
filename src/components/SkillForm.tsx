@@ -11,7 +11,8 @@ const SkillForm = ({ onSubmit }: { onSubmit: () => void }) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const createSkill = async () => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/skill/`, {
+      //const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/skill/`, {
+      const response = await fetch(`/api/skill/setSkill`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
