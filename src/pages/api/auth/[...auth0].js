@@ -5,7 +5,7 @@ export default handleAuth({
     login: handleLogin({
         authorizationParams: {
             audience: audience,
-            scope: 'openid profile email read:skills',
+            scope: 'openid profile email write:admin',
         }
     })
 });
