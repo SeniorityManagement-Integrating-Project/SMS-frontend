@@ -8,7 +8,6 @@ export default withApiAuthRequired(async function skills(req, res) {
   try {
     const { accessToken } = await getAccessToken(req, res);
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/skill/`, {
-      //const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/protected`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -17,7 +16,7 @@ export default withApiAuthRequired(async function skills(req, res) {
       res.status(200).json(skills);
   } catch (err) {
     console.error(err);
-    res.status(401).json({ message: "No estás autorizado para acceder a este recurso" });
+    res.status(401).json({ message: "You are not authorized to access this resource." });
   }
     
 });
