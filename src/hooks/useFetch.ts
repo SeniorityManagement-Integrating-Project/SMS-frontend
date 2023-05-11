@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 
-export const useFetch = <T>(url: string, componentIsReady: boolean) => {
+export const useFetch = <T>(url: string, componentIsReady: boolean = true) => {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [reloadFlag, setReloadFlag] = useState(false);
 
   useEffect(() => {
     const abortController = new AbortController();
+    setLoading(true);
+    setError(null);
     if (componentIsReady) {
       fetch(url)
         .then((response) => {
@@ -21,7 +24,9 @@ export const useFetch = <T>(url: string, componentIsReady: boolean) => {
     }
 
     return () => abortController.abort();
-  }, [url, componentIsReady]);
+  }, [url, componentIsReady, reloadFlag]);
 
-  return { data, loading, error };
+  const reload = () => setReloadFlag(!reloadFlag);
+
+  return { data, loading, error, reload };
 };
