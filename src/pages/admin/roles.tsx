@@ -25,11 +25,10 @@ const Roles = () => {
         });
       }
     };
-    deleteRole();
-    reload();
+    deleteRole().then(() => reload());
   };
   const handleSubmit = ({ name, description }: { name: string; description: string }) => {
-    const createSkill = async () => {
+    const createRole = async () => {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/role/`, {
         method: 'POST',
         headers: {
@@ -57,8 +56,7 @@ const Roles = () => {
         });
       }
     };
-    createSkill();
-    reload();
+    createRole().then(() => reload());
   };
 
   let content;

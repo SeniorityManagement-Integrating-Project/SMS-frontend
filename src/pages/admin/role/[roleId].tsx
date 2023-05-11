@@ -10,7 +10,6 @@ const Role = () => {
     data: role,
     loading,
     error,
-    reload,
   } = useFetch<any>(`${process.env.NEXT_PUBLIC_API_URL}/role/${roleId}`, router.isReady);
   const { data: allSeniorityLevels, error: allSeniorityLevelsError } = useFetch<any>(
     `${process.env.NEXT_PUBLIC_API_URL}/seniority_level/`
@@ -19,14 +18,11 @@ const Role = () => {
     return <div>Loading...</div>;
   }
   if (error || allSeniorityLevelsError) {
-    // eslint-disable-next-line no-console
-    console.error({ error }, { allSeniorityLevelsError });
     return <div>Error...</div>;
   }
   return (
     roleId && (
-      <div>
-        Role: {roleId}
+      <div className='px-4'>
         <RoleCard id={roleId} name={role.name} description={role.description} allSeniorityLevels={allSeniorityLevels} />
       </div>
     )

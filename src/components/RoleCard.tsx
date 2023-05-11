@@ -2,6 +2,7 @@ import { useFetch } from '@/hooks/useFetch';
 import { AddSeniorityLevelForm } from '@/components/AddSeniorityLevelForm';
 import { Modal } from '@mui/material';
 import { useState } from 'react';
+import { RoleSeniorityLevelCard } from '@components/RoleSeniorityLevelCard';
 
 interface Props {
   id: string;
@@ -9,34 +10,32 @@ interface Props {
   description: string;
   allSeniorityLevels: any[];
 }
+
 export const RoleCard = ({ id, name, description, allSeniorityLevels }: Props) => {
   const [open, setOpen] = useState(false);
 
-  const { data: seniorityLevels, reload } = useFetch<any[]>(
-    `${process.env.NEXT_PUBLIC_API_URL}/seniority_level/role/${id}`
-  );
+  const { data, reload } = useFetch<any[]>(`${process.env.NEXT_PUBLIC_API_URL}/role_seniority_level/role/${id}`);
   let missingSeniorityLevels = [];
-  if (seniorityLevels) {
-    missingSeniorityLevels = allSeniorityLevels.filter((sl) => !seniorityLevels.some((i) => i.id === sl.id));
+  if (data) {
+    missingSeniorityLevels = allSeniorityLevels.filter((sl) => !data.some((i) => i.seniority_level.id === sl.id));
   }
   return (
-    <div className='relative p-4 bg-white border-2 rounded-md shadow-md border-b-rose-600'>
-      <div className='pb-2 mb-4 border-b border-gray-600'>
-        <h3 className='text-lg font-medium text-gray-900'>{name}</h3>
+    <>
+      <div className='mb-2'>
+        <h1 className='mx-auto my-4 text-2xl font-bold text-center text-rose-500'>Role: {name}</h1>
         <p className='text-sm text-gray-500'>{description}</p>
       </div>
-
-      <div>
-        {seniorityLevels !== null && (
+      <h3 className='text-base mb-3'>Seniority levels:</h3>
+      <div className='ml-4 font-light'>
+        {data !== null && (
           <>
-            <div className='flex flex-col gap-2 mb-3'>
-              {seniorityLevels.map((seniorityLevel) => (
-                <div className='' key={seniorityLevel.id}>
-                  <h1>
-                    {seniorityLevel.level} {seniorityLevel.name}
-                  </h1>
-                  <p className='text-sm text-gray-500'>{seniorityLevel.description}</p>
-                </div>
+            <div className='mb-3'>
+              {data.map((roleSeniorityLevel) => (
+                <RoleSeniorityLevelCard
+                  {...roleSeniorityLevel.seniority_level}
+                  skills={roleSeniorityLevel.skills}
+                  key={roleSeniorityLevel.seniority_level.id}
+                />
               ))}
             </div>
             <button
@@ -63,6 +62,6 @@ export const RoleCard = ({ id, name, description, allSeniorityLevels }: Props) =
           </>
         )}
       </div>
-    </div>
+    </>
   );
 };
