@@ -72,9 +72,17 @@ const Roles = () => {
         ) : (
           <div className='flex flex-wrap justify-center gap-2 p-4 '>
             {data.map((role: any) => (
-              <Link href={`/admin/role/${role.id}`} key={role.id} className='flex items-stretch'>
-                <BasicCard title={role.name} text={role.description} handleDelete={() => handleDelete(role.id)} />
-              </Link>
+              <div key={role.id} className='flex items-stretch'>
+                <BasicCard
+                  title={
+                    <Link href={`/admin/role/${role.id}`} key={role.id} className='flex items-stretch'>
+                      {role.name}
+                    </Link>
+                  }
+                  text={role.description}
+                  handleDelete={() => handleDelete(role.id)}
+                />
+              </div>
             ))}
           </div>
         )}

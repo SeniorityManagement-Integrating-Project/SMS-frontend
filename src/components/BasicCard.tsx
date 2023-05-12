@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 interface Props {
-  title: string;
+  title: ReactNode;
   text: string;
   handleDelete?: () => void;
 }
