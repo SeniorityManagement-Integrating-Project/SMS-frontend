@@ -10,7 +10,6 @@ const Role = () => {
     data: role,
     loading,
     error,
-    reload,
   } = useFetch<any>(`${process.env.NEXT_PUBLIC_API_URL}/role/${roleId}`, router.isReady);
   const { data: allSeniorityLevels, error: allSeniorityLevelsError } = useFetch<any>(
     `${process.env.NEXT_PUBLIC_API_URL}/seniority_level/`
