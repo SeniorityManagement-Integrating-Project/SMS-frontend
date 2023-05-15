@@ -10,7 +10,11 @@ export const BasicCard = ({ title, text, handleDelete = undefined }: Props) => (
     <h3 className='text-lg font-medium text-gray-900'>{title}</h3>
     <p className='text-gray-500'>{text}</p>
     {handleDelete && (
-      <button type='button' onClick={handleDelete} className='absolute w-6 h-6 bg-red-500 rounded-full top-1 right-1'>
+      <button
+        type='button'
+        onClick={handleDelete}
+        className='absolute w-6 h-6 bg-red-500 rounded-full top-1 right-1 z-50'
+      >
         ×
       </button>
     )}
