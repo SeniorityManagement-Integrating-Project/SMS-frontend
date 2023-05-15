@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useInput } from '@/hooks/useInput';
-import React, { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 
 export const AddSeniorityLevelForm = ({
   roleId,
@@ -9,7 +9,7 @@ export const AddSeniorityLevelForm = ({
   onSubmitSuccess = undefined,
 }: any) => {
   const description = useInput({ type: 'text', name: 'description', initialValue: '' });
-  const [seniorityLevelId, setSeniorityLevelId] = React.useState<number>(-1);
+  const [seniorityLevelId, setSeniorityLevelId] = useState<number>(-1);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -61,7 +61,11 @@ export const AddSeniorityLevelForm = ({
         />
       </div>
       <div className='flex justify-center mt-4'>
-        <button type='submit' className='px-5 py-1 text-lg text-white rounded-full bg-rose-600 '>
+        <button
+          type='submit'
+          disabled={seniorityLevelId === -1 || description.value === ''}
+          className='px-5 py-1 text-lg text-white rounded-full bg-rose-600 '
+        >
           Add
         </button>
       </div>

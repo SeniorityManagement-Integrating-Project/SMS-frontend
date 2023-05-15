@@ -14,28 +14,66 @@ interface Props {
 export const RoleCard = ({ id, name, description, allSeniorityLevels }: Props) => {
   const [open, setOpen] = useState(false);
 
-  const { data, reload } = useFetch<any[]>(`${process.env.NEXT_PUBLIC_API_URL}/role_seniority_level/role/${id}`);
+  const { data: seniorityLevelsData, reload: seniorityLevelsReload } = useFetch<any[]>(
+    `${process.env.NEXT_PUBLIC_API_URL}/role_seniority_level/role/${id}`
+  );
+  const { data: availableSkillsData, reload: availableSkillsReload } = useFetch<any[]>(
+    `${process.env.NEXT_PUBLIC_API_URL}/role/available_skills/${id}`
+  );
   let missingSeniorityLevels = [];
-  if (data) {
-    missingSeniorityLevels = allSeniorityLevels.filter((sl) => !data.some((i) => i.seniority_level.id === sl.id));
+  if (seniorityLevelsData) {
+    missingSeniorityLevels = allSeniorityLevels.filter(
+      (sl) => !seniorityLevelsData.some((i) => i.seniority_level.id === sl.id)
+    );
   }
+  const addSkill = (roleSeniorityLevelId: number, skillId: number) => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/role_seniority_level/${roleSeniorityLevelId}/${skillId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then(() => {
+        availableSkillsReload();
+        seniorityLevelsReload();
+      });
+  };
+  const removeSkill = (roleSeniorityLevelId: number, skillId: number) => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/role_seniority_level/${roleSeniorityLevelId}/${skillId}`, {
+      method: 'DELETE',
+      headers: {},
+    })
+      .then((response) => response.json())
+      .then(() => {
+        availableSkillsReload();
+        seniorityLevelsReload();
+      });
+  };
   return (
     <>
       <div className='mb-2'>
         <h1 className='mx-auto my-4 text-2xl font-bold text-center text-rose-500'>Role: {name}</h1>
         <p className='text-sm text-gray-500'>{description}</p>
       </div>
-      <h3 className='text-base mb-3'>Seniority levels:</h3>
-      <div className='ml-4 font-light'>
-        {data !== null && (
+      <div className='font-light'>
+        {seniorityLevelsData !== null && (
           <>
             <div className='mb-3'>
-              {data.map((roleSeniorityLevel) => (
-                <RoleSeniorityLevelCard
-                  {...roleSeniorityLevel.seniority_level}
-                  skills={roleSeniorityLevel.skills}
-                  key={roleSeniorityLevel.seniority_level.id}
-                />
+              <hr />
+              {seniorityLevelsData.map((roleSeniorityLevel) => (
+                <div key={roleSeniorityLevel.id}>
+                  <RoleSeniorityLevelCard
+                    id={roleSeniorityLevel.id}
+                    name={roleSeniorityLevel.seniority_level.name}
+                    description={roleSeniorityLevel.description}
+                    skills={roleSeniorityLevel.skills}
+                    addSkill={addSkill}
+                    removeSkill={removeSkill}
+                    availableSkills={availableSkillsData || []}
+                  />
+                  <hr />
+                </div>
               ))}
             </div>
             <button
@@ -54,7 +92,7 @@ export const RoleCard = ({ id, name, description, allSeniorityLevels }: Props) =
                     setOpen(false);
                   }}
                   onSubmitSuccess={() => {
-                    reload();
+                    seniorityLevelsReload();
                   }}
                 />
               </div>
