@@ -24,8 +24,9 @@ const Requests = () => {
               key={request.id}
               requestID={request.id}
               requestedAt={request.created_at}
-              employeeID={request.employee_id}
-              skillID={request.skill_id}
+              employee={request.employee}
+              skill={request.skill}
+              comments={request.comments}
               supportFile={request.support_file}
               reload={reload}
             />
@@ -37,7 +38,7 @@ const Requests = () => {
   return (
     <div>
       <h1 className='mx-auto my-4 text-2xl font-bold text-center text-rose-500'>Pending Requests</h1>
-      <div className='flex flex-wrap'>{content}</div>
+      <div className='flex flex-wrap justify-center'>{content}</div>
     </div>
   );
 };

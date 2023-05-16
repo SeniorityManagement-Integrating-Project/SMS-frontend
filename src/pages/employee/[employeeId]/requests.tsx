@@ -35,10 +35,7 @@ const Requests = () => {
               validatedAt={request.updated_at}
               skillName={request.skill.name}
               skillDescription={request.skill.description}
-              comments={request.comments.map((comment: any) => ({
-                comment: comment.comment,
-                date: comment.created_at,
-              }))}
+              comments={request.comments}
               supportFile={request.support_file}
             />
           ))}

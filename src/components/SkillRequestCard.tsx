@@ -1,7 +1,8 @@
-import { formatDate, timeAgo } from '@/utils/date';
+import { formatDate } from '@/utils/date';
 import { RequestStatusBadge } from '@/components/RequestStatusBadge';
 import { TbFile, TbPdf } from 'react-icons/tb';
 import { Tooltip } from '@mui/material';
+import { RequestCommentList } from '@components/RequestCommentList';
 
 interface Props {
   requestedAt: string;
@@ -14,10 +15,7 @@ interface Props {
   validator?: {
     username: string;
   };
-  comments: {
-    comment: string;
-    date: string;
-  }[];
+  comments: any[];
 }
 
 export const SkillRequestCard = ({
@@ -56,14 +54,7 @@ export const SkillRequestCard = ({
         {comments.length > 0 && (
           <>
             <h3 className='text-sm font-bold'>Comments:</h3>
-            <div className='flex flex-col gap-1'>
-              {comments.map((comment) => (
-                <div key={comment.date} className='px-4 py-1 font-light'>
-                  <p>{comment.comment}</p>
-                  <p className='text-gray-400 text-xs'>{timeAgo(comment.date)}</p>
-                </div>
-              ))}
-            </div>
+            <RequestCommentList comments={comments} />
           </>
         )}
       </div>
