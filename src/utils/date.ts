@@ -1,6 +1,7 @@
 export const formatDate = (dateString: string): string => {
-  const newDate = new Date(dateString);
-  return newDate.toLocaleString('en-US', {
+  const date = new Date(dateString);
+  const localDate = UTCtoLocalTime(date);
+  return localDate.toLocaleString('en-US', {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
@@ -12,8 +13,9 @@ export const formatDate = (dateString: string): string => {
 
 export const timeAgo = (dateString: string): string => {
   const date = new Date(dateString);
+  const localDate = UTCtoLocalTime(date);
   const now = new Date();
-  const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+  const seconds = Math.floor((now.getTime() - localDate.getTime()) / 1000);
 
   let interval = Math.floor(seconds / 31536000);
 
@@ -37,4 +39,10 @@ export const timeAgo = (dateString: string): string => {
     return `${interval} minute${interval > 1 ? 's' : ''} ago`;
   }
   return `${Math.floor(seconds)} second${seconds > 1 ? 's' : ''} ago`;
+};
+
+export const UTCtoLocalTime = (date: Date) => {
+  const offset = new Date().getTimezoneOffset();
+  const localDate = new Date(date.getTime() - offset * 60 * 1000);
+  return localDate;
 };
