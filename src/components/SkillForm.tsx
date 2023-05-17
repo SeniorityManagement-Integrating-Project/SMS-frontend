@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const SkillForm = ({ onSubmit }: { onSubmit: () => void }) => {
   const [form, setForm] = useState({ name: '', description: '' });
@@ -45,6 +45,8 @@ const SkillForm = ({ onSubmit }: { onSubmit: () => void }) => {
       description: '',
     });
   };
+
+  useEffect(() => {}, []);
 
   return (
     <form className='flex flex-col w-2/3 gap-3 p-8 mx-auto border-2 rounded-md shadow-md' onSubmit={handleSubmit}>

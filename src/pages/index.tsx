@@ -9,7 +9,8 @@ const Home = () => {
 
   useEffect(() => {
     if (user) {
-      router.push(`/profile/${user.sub?.slice(6)}`);
+      //router.push(`/profile/${user.sub?.slice(6)}`);
+      router.push(`/employee/${user.sub?.slice(6)}/info`);
     }
   }, [user, router]);
 
