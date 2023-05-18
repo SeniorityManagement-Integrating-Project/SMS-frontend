@@ -6,48 +6,53 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 interface Props {
   employeeId: number;
   skillId: number;
-  handleCloseReqModal: () => void;
+  onSubmit: () => void;
 }
 
-const SkillRequest = ({ employeeId, skillId, handleCloseReqModal }: Props) => {
+export const NewSkillRequest = ({ employeeId, skillId, onSubmit }: Props) => {
   const [file, setFile] = useState<File | undefined>();
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    handleCloseReqModal();
-    e.preventDefault();
-    /* TODO: Search how to upload a file to AWS S3 and get the URL
-     *  To send that URL in the request to the backend
-     *  https://aws.amazon.com/es/blogs/compute/uploading-to-amazon-s3-directly-from-a-web-or-mobile-application/
-     *  https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/welcome.html
-     * */
-
-    const createRequest = async () => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/request/${employeeId}/${skillId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          support_file: file?.name,
-        }),
+  const createRequest = async () => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/request/${employeeId}/${skillId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        support_file: file?.name,
+      }),
+    });
+    const data = await response.json();
+    if (response.status === 200) {
+      await Swal.fire({
+        title: 'Request Created!',
+        text: `The request has been created successfully.`,
+        icon: 'success',
+        confirmButtonText: 'Cool',
       });
-      const data = await response.json();
-      if (response.status === 200) {
-        await Swal.fire({
-          title: 'Request Created!',
-          text: `The request has been created successfully.`,
-          icon: 'success',
-          confirmButtonText: 'Cool',
-        });
-      } else {
-        await Swal.fire({
-          title: 'Oops! Something went wrong',
-          text: `${data.message}`,
-          icon: 'error',
-          confirmButtonText: 'Ok',
-        });
-      }
-    };
+    } else if (response.status === 409) {
+      await Swal.fire({
+        title: 'Oops!',
+        text: `${data.message}`,
+        icon: 'warning',
+        confirmButtonText: 'Ok',
+        background: '#333333',
+        confirmButtonColor: '#FF2965',
+        color: 'white',
+      });
+    } else {
+      await Swal.fire({
+        title: 'Oops! Something went wrong',
+        text: `${data.message}`,
+        icon: 'error',
+        confirmButtonText: 'Ok',
+      });
+    }
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    onSubmit();
+    e.preventDefault();
     createRequest();
   };
 
@@ -80,5 +85,3 @@ const SkillRequest = ({ employeeId, skillId, handleCloseReqModal }: Props) => {
     </article>
   );
 };
-
-export { SkillRequest };

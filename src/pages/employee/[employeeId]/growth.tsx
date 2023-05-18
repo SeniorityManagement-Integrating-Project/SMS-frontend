@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { SeniorityLevelCard } from '@/components/SeniorityLevelCard';
+import { SeniorityLevelEmployeeCard } from '@/components/SeniorityLevelEmployeeCard';
 import { Loader } from '@/components/Loader';
 import { useFetch } from '@/hooks/useFetch';
 
@@ -19,15 +19,18 @@ const Growth = () => {
   } else if (data.length === 0) {
     content = <p className='py-5 text-center'>No growth path found</p>;
   } else {
+    const firstNotAchivedLevel = data
+      .sort((a: any, b: any) => a.level - b.level)
+      .find((level: any) => level.skills.some((skill: any) => !skill.is_attained)).level;
     content = (
       <>
         {data.map((level: any) => (
-          <SeniorityLevelCard
+          <SeniorityLevelEmployeeCard
             key={level.level}
             name={level.level_name}
             description={level.description}
             level={level.level}
-            completed={level.skills.filter((skill: any) => !skill.is_attained).length === 0 && level.skills.length > 0}
+            completed={level.level < firstNotAchivedLevel}
             skills={level.skills}
           />
         ))}
@@ -37,7 +40,7 @@ const Growth = () => {
 
   return (
     <main>
-      <h1 className='mx-auto my-4 text-2xl font-bold text-center text-rose-500'>Growth path</h1>
+      <h1 className='mx-auto my-4 text-2xl font-bold text-center text-primary'>Growth path</h1>
       {content}
     </main>
   );
