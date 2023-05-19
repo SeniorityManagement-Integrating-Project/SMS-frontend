@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { BasicForm } from '@/components/BasicForm';
 import { BasicCard } from '@/components/BasicCard';
 import Link from 'next/link';
+import { swal2Config } from '@/config/swal2Config';
 
 const Roles = () => {
   const router = useRouter();
@@ -18,6 +19,7 @@ const Roles = () => {
         reload();
         const deleteData = await response.json();
         await Swal.fire({
+          ...swal2Config,
           title: 'Deleted!',
           text: `The role ${deleteData.name} has been deleted successfully.`,
           icon: 'success',
@@ -42,6 +44,7 @@ const Roles = () => {
       const createData = await response.json();
       if (response.status === 200) {
         await Swal.fire({
+          ...swal2Config,
           title: 'Created!',
           text: `The role ${createData.name} has been created successfully.`,
           icon: 'success',
@@ -49,6 +52,7 @@ const Roles = () => {
         });
       } else if (response.status === 409) {
         await Swal.fire({
+          ...swal2Config,
           title: 'Error!',
           text: `${createData.message}`,
           icon: 'error',

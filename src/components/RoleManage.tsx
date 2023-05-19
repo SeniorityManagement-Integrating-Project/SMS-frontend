@@ -1,8 +1,9 @@
 import { useFetch } from '@/hooks/useFetch';
 import { AddSeniorityLevelForm } from '@/components/AddSeniorityLevelForm';
-import { Modal } from '@mui/material';
+import { Modal } from '@/components/Modal';
 import { useState } from 'react';
 import { RoleSeniorityLevelCard } from '@components/RoleSeniorityLevelCard';
+import { Button } from '@/components/Button';
 
 interface Props {
   id: string;
@@ -11,7 +12,7 @@ interface Props {
   allSeniorityLevels: any[];
 }
 
-export const RoleCard = ({ id, name, description, allSeniorityLevels }: Props) => {
+export const RoleManage = ({ id, name, description, allSeniorityLevels }: Props) => {
   const [open, setOpen] = useState(false);
 
   const { data: seniorityLevelsData, reload: seniorityLevelsReload } = useFetch<any[]>(
@@ -54,7 +55,7 @@ export const RoleCard = ({ id, name, description, allSeniorityLevels }: Props) =
     <>
       <div className='mb-2'>
         <h1 className='mx-auto my-4 text-2xl font-bold text-center text-rose-500'>Role: {name}</h1>
-        <p className='text-sm text-gray-500'>{description}</p>
+        <p className='text-sm text-gray-100'>{description}</p>
       </div>
       <div className='font-light'>
         {seniorityLevelsData !== null && (
@@ -76,26 +77,22 @@ export const RoleCard = ({ id, name, description, allSeniorityLevels }: Props) =
                 </div>
               ))}
             </div>
-            <button
-              type='button'
-              onClick={() => setOpen(true)}
-              className='flex items-center gap-2 px-4 text-white rounded-full bg-rose-600'
-            >
-              Add seniority level
-            </button>
+            <div className='flex justify-center mt-8'>
+              <Button type='button' onClick={() => setOpen(true)} className='mx-auto '>
+                Add seniority level
+              </Button>
+            </div>
             <Modal open={open} onClose={() => setOpen(false)}>
-              <div className='absolute text-base p-8 bg-white rounded-md -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-[32em]'>
-                <AddSeniorityLevelForm
-                  roleId={id}
-                  seniorityLevels={missingSeniorityLevels}
-                  onSubmit={() => {
-                    setOpen(false);
-                  }}
-                  onSubmitSuccess={() => {
-                    seniorityLevelsReload();
-                  }}
-                />
-              </div>
+              <AddSeniorityLevelForm
+                roleId={id}
+                seniorityLevels={missingSeniorityLevels}
+                onSubmit={() => {
+                  setOpen(false);
+                }}
+                onSubmitSuccess={() => {
+                  seniorityLevelsReload();
+                }}
+              />
             </Modal>
           </>
         )}

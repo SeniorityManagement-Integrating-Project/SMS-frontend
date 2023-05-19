@@ -25,7 +25,7 @@ export const BasicForm = ({ onSubmit }: Props) => {
         <input
           {...name}
           id={nameInputId}
-          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:border-b-rose-600 focus:outline-rose-600'
+          className='bg-background-3 border border-gray-300 text-gray-200 text-sm rounded-lg w-full p-2.5 focus:border-b-primary focus:outline-primary'
         />
       </div>
       <div className='flex flex-col'>
@@ -33,7 +33,7 @@ export const BasicForm = ({ onSubmit }: Props) => {
         <input
           {...description}
           id={descriptionInputId}
-          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:border-b-rose-600 focus:outline-rose-600'
+          className='bg-background-3 border border-gray-300 text-gray-200 text-sm rounded-lg w-full p-2.5 focus:border-b-primary focus:outline-primary'
         />
       </div>
 

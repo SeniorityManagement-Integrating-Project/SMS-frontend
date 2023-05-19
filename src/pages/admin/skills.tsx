@@ -4,6 +4,7 @@ import { Loader } from '@/components/Loader';
 import { BasicCard } from '@/components/BasicCard';
 import Swal from 'sweetalert2';
 import { BasicForm } from '@/components/BasicForm';
+import { swal2Config } from '@/config/swal2Config';
 
 const Skills = () => {
   const router = useRouter();
@@ -17,6 +18,7 @@ const Skills = () => {
         reload();
         const deleteData = await response.json();
         await Swal.fire({
+          ...swal2Config,
           title: 'Deleted!',
           text: `The skill ${deleteData.name} has been deleted successfully.`,
           icon: 'success',
@@ -42,6 +44,7 @@ const Skills = () => {
       if (response.status === 200) {
         reload();
         await Swal.fire({
+          ...swal2Config,
           title: 'Created!',
           text: `The skill ${createData.name} has been created successfully.`,
           icon: 'success',
@@ -49,6 +52,7 @@ const Skills = () => {
         });
       } else if (response.status === 409) {
         await Swal.fire({
+          ...swal2Config,
           title: 'Error!',
           text: `${createData.message}`,
           icon: 'error',

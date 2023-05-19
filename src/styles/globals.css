@@ -2,6 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-    @apply bg-background-1 text-white 
+body {
+  @apply text-white bg-background-1;
 }

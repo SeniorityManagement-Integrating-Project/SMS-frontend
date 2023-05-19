@@ -1,5 +1,6 @@
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import { swal2Config } from '@/config/swal2Config';
 import { FiUploadCloud } from 'react-icons/fi';
 import { ChangeEvent, FormEvent, useState } from 'react';
 
@@ -25,6 +26,7 @@ export const NewSkillRequest = ({ employeeId, skillId, onSubmit }: Props) => {
     const data = await response.json();
     if (response.status === 200) {
       await Swal.fire({
+        ...swal2Config,
         title: 'Request Created!',
         text: `The request has been created successfully.`,
         icon: 'success',
@@ -32,16 +34,15 @@ export const NewSkillRequest = ({ employeeId, skillId, onSubmit }: Props) => {
       });
     } else if (response.status === 409) {
       await Swal.fire({
+        ...swal2Config,
         title: 'Oops!',
         text: `${data.message}`,
         icon: 'warning',
         confirmButtonText: 'Ok',
-        background: '#333333',
-        confirmButtonColor: '#FF2965',
-        color: 'white',
       });
     } else {
       await Swal.fire({
+        ...swal2Config,
         title: 'Oops! Something went wrong',
         text: `${data.message}`,
         icon: 'error',

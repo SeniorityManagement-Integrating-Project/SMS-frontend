@@ -1,4 +1,4 @@
-import { Modal } from '@mui/material';
+import { Modal } from '@/components/Modal';
 import React, { useState } from 'react';
 import { TbCircle, TbCircleCheck, TbForbid2 } from 'react-icons/tb';
 import { SkillDetails } from '@/components/SkillDetails';
@@ -64,26 +64,24 @@ export const SeniorityLevelEmployeeCard = ({ name, description, level, completed
         </p>
       )}
       <Modal open={modalOpen} onClose={handleClose}>
-        <div className='absolute p-8 -translate-x-1/2 -translate-y-1/2 rounded-md top-1/2 left-1/2 min-w-[375px] bg-background-1'>
-          {modalContent === ModalContent.SKILL_REQUESTS ? (
-            <>
-              <SkillDetails employeeId={Number(employeeId)} skillId={selectedSkill} />
-              {selectedSkill && !skills.find((s) => s.id === selectedSkill).is_attained && (
-                <div className='flex justify-center mt-5'>
-                  <button
-                    type='button'
-                    className='underline text-rose-500'
-                    onClick={() => setModalContent(ModalContent.NEW_REQUEST)}
-                  >
-                    Request validation for this skill
-                  </button>
-                </div>
-              )}
-            </>
-          ) : (
-            <NewSkillRequest employeeId={Number(employeeId)} skillId={selectedSkill} onSubmit={handleClose} />
-          )}
-        </div>
+        {modalContent === ModalContent.SKILL_REQUESTS ? (
+          <>
+            <SkillDetails employeeId={Number(employeeId)} skillId={selectedSkill} />
+            {selectedSkill && !skills.find((s) => s.id === selectedSkill).is_attained && (
+              <div className='flex justify-center mt-5'>
+                <button
+                  type='button'
+                  className='underline text-rose-500'
+                  onClick={() => setModalContent(ModalContent.NEW_REQUEST)}
+                >
+                  Request validation for this skill
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
+          <NewSkillRequest employeeId={Number(employeeId)} skillId={selectedSkill} onSubmit={handleClose} />
+        )}
       </Modal>
     </div>
   );

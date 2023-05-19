@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React from 'react';
-import { RoleCard } from '@/components/RoleCard';
+import { RoleManage } from '@/components/RoleManage';
 import { useFetch } from '@/hooks/useFetch';
 
 const Role = () => {
@@ -23,7 +23,12 @@ const Role = () => {
   return (
     roleId && (
       <div className='px-4'>
-        <RoleCard id={roleId} name={role.name} description={role.description} allSeniorityLevels={allSeniorityLevels} />
+        <RoleManage
+          id={roleId}
+          name={role.name}
+          description={role.description}
+          allSeniorityLevels={allSeniorityLevels}
+        />
       </div>
     )
   );

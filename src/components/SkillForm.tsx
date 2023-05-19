@@ -1,6 +1,7 @@
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import React, { useState } from 'react';
+import { swal2Config } from '@/config/swal2Config';
 
 const SkillForm = ({ onSubmit }: { onSubmit: () => void }) => {
   const [form, setForm] = useState({ name: '', description: '' });
@@ -25,6 +26,7 @@ const SkillForm = ({ onSubmit }: { onSubmit: () => void }) => {
       if (response.status === 200) {
         onSubmit();
         await Swal.fire({
+          ...swal2Config,
           title: 'Created!',
           text: `The skill ${data.name} has been created successfully.`,
           icon: 'success',
@@ -32,6 +34,7 @@ const SkillForm = ({ onSubmit }: { onSubmit: () => void }) => {
         });
       } else if (response.status === 409) {
         await Swal.fire({
+          ...swal2Config,
           title: 'Error!',
           text: `${data.message}`,
           icon: 'error',
@@ -59,7 +62,7 @@ const SkillForm = ({ onSubmit }: { onSubmit: () => void }) => {
           type='text'
           name='name'
           onChange={handleChange}
-          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:border-b-rose-600 focus:outline-rose-600'
+          className='bg-background-3 border border-gray-300 text-gray-200 text-sm rounded-lg w-full p-2.5 focus:border-b-primary focus:outline-primary'
         />
       </div>
       <div className='flex flex-col'>
@@ -72,7 +75,7 @@ const SkillForm = ({ onSubmit }: { onSubmit: () => void }) => {
           type='text'
           name='description'
           onChange={handleChange}
-          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:border-b-rose-600 focus:outline-rose-600'
+          className='bg-background-3 border border-gray-300 text-gray-200 text-sm rounded-lg w-full p-2.5 focus:border-b-primary focus:outline-primary'
         />
       </div>
 

@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useInput } from '@/hooks/useInput';
+import { Button } from '@/components/Button';
 import { FormEvent, useState } from 'react';
 
 export const AddSeniorityLevelForm = ({
@@ -34,13 +35,13 @@ export const AddSeniorityLevelForm = ({
   };
   return (
     <form onSubmit={handleSubmit}>
-      <div className='flex flex-col'>
+      <div className='flex flex-col mb-3'>
         <label htmlFor='role-seniority-level'>Seniority level</label>
         <select
           value={seniorityLevelId}
           id='role-seniority-level'
           onChange={(e) => setSeniorityLevelId(Number(e.target.value))}
-          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:border-b-rose-600 focus:outline-rose-600'
+          className='bg-background-3 border border-gray-300 text-gray-200 text-sm rounded-lg w-full p-2.5 focus:border-b-primary focus:outline-primary'
         >
           <option value={-1} disabled>
             Select a seniority level
@@ -52,22 +53,18 @@ export const AddSeniorityLevelForm = ({
           ))}
         </select>
       </div>
-      <div className='flex flex-col'>
+      <div className='flex flex-col mb-3'>
         <label htmlFor='role-seniority-level-description'>Descripción</label>
         <input
           {...description}
           id='role-seniority-level-description'
-          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:border-b-rose-600 focus:outline-rose-600'
+          className='bg-background-3 border border-gray-300 text-gray-200 text-sm rounded-lg w-full p-2.5 focus:border-b-primary focus:outline-primary'
         />
       </div>
       <div className='flex justify-center mt-4'>
-        <button
-          type='submit'
-          disabled={seniorityLevelId === -1 || description.value === ''}
-          className='px-5 py-1 text-lg text-white rounded-full bg-rose-600 '
-        >
+        <Button type='submit' disabled={seniorityLevelId === -1 || description.value === ''}>
           Add
-        </button>
+        </Button>
       </div>
     </form>
   );
