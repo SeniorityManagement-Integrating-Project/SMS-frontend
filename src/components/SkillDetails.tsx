@@ -19,13 +19,13 @@ export const SkillDetails = ({ employeeId, skillId }: Props) => {
     <Loader />
   ) : (
     <article>
-      <div className='pb-2 mb-4 border-b border-gray-600'>
+      <div className='pb-2 mb-4 border-b border-gray-500'>
         <h1 className='text-xl font-bold'>{data.name}</h1>
-        <p className='text-xs text-gray-600'>{data.description}</p>
+        <p className='text-xs text-gray-300'>{data.description}</p>
       </div>
       <h2 className='font-bold text-md'>Requests:</h2>
       {data.employee_requests.length > 0 ? (
-        <ul className='ml-2'>
+        <ul>
           {data.employee_requests.map((request: any) => (
             <li key={request.id}>
               <RequestCard

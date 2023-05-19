@@ -3,6 +3,7 @@ import { TbCircleCheck, TbCircleDashed, TbForbid2 } from 'react-icons/tb';
 interface Props {
   approved: boolean;
   validated: boolean;
+  className?: string;
 }
 
 enum Status {
@@ -41,10 +42,10 @@ const getRequestStatusIcon = (status: string) => {
   return <TbCircleDashed className='text-3xl text-gray-500' />;
 };
 
-export const RequestStatusBadge = ({ approved, validated }: Props) => {
+export const RequestStatusBadge = ({ approved, validated, className }: Props) => {
   const requestStatus: string = getRequestStatus(approved, validated);
   return (
-    <span className={`flex items-center gap-1 rounded-full px-1 ${getRequestStatusColor(requestStatus)} `}>
+    <span className={`flex items-center gap-1 rounded-full px-1 ${getRequestStatusColor(requestStatus)} ${className} `}>
       {getRequestStatusIcon(requestStatus)}
       {requestStatus}
     </span>

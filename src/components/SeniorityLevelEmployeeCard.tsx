@@ -31,10 +31,10 @@ export const SeniorityLevelEmployeeCard = ({ name, description, level, completed
   };
 
   return (
-    <div className={`p-4 m-6 rounded-lg bg-background-2 ${completed && 'border border-gray-500'}`}>
-      <h1 className='text-xl font-bold'>
+    <div className={`p-6 m-6 rounded-lg bg-background-2 ${completed && 'border border-gray-500'}`}>
+      <h2 className='text-xl font-bold'>
         {level}. {name}
-      </h1>
+      </h2>
       <p className='text-xs text-gray-300'>{description}</p>
       <h2 className='font-bold'>Skills</h2>
       {skills.length > 0 ? (
