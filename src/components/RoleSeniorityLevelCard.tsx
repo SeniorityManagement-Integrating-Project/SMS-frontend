@@ -35,14 +35,14 @@ export const RoleSeniorityLevelCard = ({
     setModalOpen(false);
   };
   return (
-    <>
+    <div>
       <button type='button' className='w-full text-left' onClick={() => setShowDetails(!showDetails)}>
-        <h4 className='py-4 text-xl'>
+        <h4 className='text-xl font-medium'>
           {name} Level <TbChevronDown className={`inline text-primary transition-all ${showDetails && 'rotate-180'}`} />
         </h4>
       </button>
       {showDetails && (
-        <div className='mb-6 text-sm text-gray-200'>
+        <div className='text-sm text-gray-200'>
           <p>descripción: {description}</p>
           <div className='flex flex-wrap items-center gap-1 text-white'>
             skills:{' '}
@@ -87,6 +87,6 @@ export const RoleSeniorityLevelCard = ({
       <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
         <AddSkillToSeniorityLevel addSkill={handleAddSkill} availableSkills={availableSkills} />
       </Modal>
-    </>
+    </div>
   );
 };

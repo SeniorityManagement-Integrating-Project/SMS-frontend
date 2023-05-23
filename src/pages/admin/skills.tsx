@@ -5,10 +5,14 @@ import { BasicCard } from '@/components/BasicCard';
 import Swal from 'sweetalert2';
 import { BasicForm } from '@/components/BasicForm';
 import { swal2Config } from '@/config/swal2Config';
+import { Modal } from '@components/Modal';
+import { useState } from 'react';
+import { Button } from '@components/Button';
 
 const Skills = () => {
   const router = useRouter();
   const { data, loading, error, reload } = useFetch<any>(`${process.env.NEXT_PUBLIC_API_URL}/skill/`, router.isReady);
+  const [openModal, setOpenModal] = useState(false);
   const handleDelete = (id: number) => {
     const deleteSkill = async () => {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/skill/${id}`, {
@@ -29,6 +33,7 @@ const Skills = () => {
     deleteSkill();
   };
   const handleSubmit = ({ name, description }: { name: string; description: string }) => {
+    setOpenModal(false);
     const createSkill = async () => {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/skill/`, {
         method: 'POST',
@@ -74,7 +79,10 @@ const Skills = () => {
         {data.length === 0 ? (
           <p>No skills found</p>
         ) : (
-          <div className='flex flex-wrap justify-center gap-2 p-4 '>
+          <>
+            <div className='flex justify-center mb-8'>
+              <Button onClick={() => setOpenModal(true)}>Add a new Skill</Button>
+            </div>
             {data.map((skill: any) => (
               <BasicCard
                 key={skill.id}
@@ -83,14 +91,16 @@ const Skills = () => {
                 handleDelete={() => handleDelete(skill.id)}
               />
             ))}
-          </div>
+          </>
         )}
-        <BasicForm onSubmit={handleSubmit} />
+        <Modal open={openModal} onClose={() => setOpenModal(false)}>
+          <BasicForm onSubmit={handleSubmit} />
+        </Modal>
       </>
     );
   }
   return (
-    <main>
+    <main className='px-6'>
       <h1 className='mx-auto my-4 text-2xl font-bold text-center text-rose-500'>Skills</h1>
       {content}
     </main>

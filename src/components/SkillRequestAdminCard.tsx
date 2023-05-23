@@ -7,6 +7,7 @@ import { useInput } from '@hooks/useInput';
 import { FormEvent } from 'react';
 import { RequestCommentList } from '@components/RequestCommentList';
 import { swal2Config } from '@/config/swal2Config';
+import { Button } from '@components/Button';
 
 interface Props {
   requestID: number;
@@ -16,10 +17,20 @@ interface Props {
   comments: any[];
   supportFile?: string;
   reload: () => void;
+  className?: string;
 }
 
-const SkillRequestAdminCard = ({ requestID, requestedAt, employee, skill, comments, supportFile, reload }: Props) => {
-  const comment = useInput({ type: 'text', initialValue: '', name: 'comment', placeholder: 'write a new comment' });
+const SkillRequestAdminCard = ({
+  requestID,
+  requestedAt,
+  employee,
+  skill,
+  comments,
+  supportFile,
+  reload,
+  className,
+}: Props) => {
+  const comment = useInput({ type: 'text', initialValue: '', name: 'comment', placeholder: 'Leave a new comment' });
   const Approved = async (approved: boolean) => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/request/${requestID}`, {
       method: 'PATCH',
@@ -103,23 +114,25 @@ const SkillRequestAdminCard = ({ requestID, requestedAt, employee, skill, commen
   };
 
   return (
-    <div className='shadow-[0px_0px_15px_0px] rounded-lg m-6 p-4 shadow-gray-200 bg-gray-100 border-gray-200 border w-96 flex flex-col overflow-hidden'>
+    <div className={`relative p-6 rounded-lg bg-background-2 text-white ${className}`}>
+      <h3 className='text-center font-bold text-lg mb-4'>Request by {employee.name}</h3>
       <p>
-        <span className='font-bold'>Date:</span> {formatDate(requestedAt)}
+        <span className='font-bold'>Skill:</span> <span className='font-light'>{skill.name}</span>
       </p>
       <p>
-        <span className='font-bold'>Employee:</span> {employee.name}
-      </p>
-      <p>
-        <span className='font-bold'>Skill:</span> {skill.name}
+        <span className='font-bold'>Date:</span> <span className='font-light'>{formatDate(requestedAt)}</span>
       </p>
       <p className='whitespace-nowrap'>
         <span className='font-bold'>Support File: </span>
         <span className='underline text-rose-500'>{supportFile}</span>
       </p>
-      <p className='font-bold'>Comments:</p>
-      <RequestCommentList comments={comments} />
-      <form className='flex items-center gap-3 mt-auto' onSubmit={submitComment}>
+      {comments.length > 0 && (
+        <>
+          <p className='font-bold'>Comments:</p>
+          <RequestCommentList comments={comments} />
+        </>
+      )}
+      <form className='flex items-center gap-3 my-4' onSubmit={submitComment}>
         <input
           className='bg-background-3 border border-gray-300 text-gray-200 text-sm rounded-lg w-full p-2.5 focus:border-b-primary focus:outline-primary'
           {...comment}
@@ -128,13 +141,11 @@ const SkillRequestAdminCard = ({ requestID, requestedAt, employee, skill, commen
           <TbSend size={25} />
         </button>
       </form>
-      <button
-        type='button'
-        className='px-5 py-2 mt-3 text-lg font-bold text-white rounded-lg bg-rose-500 hover:bg-rose-600'
-        onClick={validate}
-      >
-        Validate
-      </button>
+      <div className='flex justify-center'>
+        <Button type='button' onClick={validate}>
+          Validate
+        </Button>
+      </div>
     </div>
   );
 };

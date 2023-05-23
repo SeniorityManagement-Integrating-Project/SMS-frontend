@@ -1,3 +1,6 @@
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+import { swal2Config } from '@/config/swal2Config';
 import { useFetch } from '@/hooks/useFetch';
 import { AddSeniorityLevelForm } from '@/components/AddSeniorityLevelForm';
 import { Modal } from '@/components/Modal';
@@ -27,6 +30,15 @@ export const RoleManage = ({ id, name, description, allSeniorityLevels }: Props)
       (sl) => !seniorityLevelsData.some((i) => i.seniority_level.id === sl.id)
     );
   }
+
+  const swalError = async () => {
+    await Swal.fire({
+      ...swal2Config,
+      icon: 'error',
+      title: 'Error',
+      text: 'Something went wrong, try again later',
+    });
+  };
   const addSkill = (roleSeniorityLevelId: number, skillId: number) => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/role_seniority_level/${roleSeniorityLevelId}/${skillId}`, {
       method: 'POST',
@@ -35,6 +47,7 @@ export const RoleManage = ({ id, name, description, allSeniorityLevels }: Props)
       },
     })
       .then((response) => response.json())
+      .catch(() => swalError())
       .then(() => {
         availableSkillsReload();
         seniorityLevelsReload();
@@ -46,6 +59,7 @@ export const RoleManage = ({ id, name, description, allSeniorityLevels }: Props)
       headers: {},
     })
       .then((response) => response.json())
+      .catch(() => swalError())
       .then(() => {
         availableSkillsReload();
         seniorityLevelsReload();
@@ -53,17 +67,19 @@ export const RoleManage = ({ id, name, description, allSeniorityLevels }: Props)
   };
   return (
     <>
-      <div className='mb-2'>
-        <h1 className='mx-auto my-4 text-2xl font-bold text-center text-rose-500'>Role: {name}</h1>
-        <p className='text-sm text-gray-100'>{description}</p>
-      </div>
+      <h1 className='mx-auto my-4 text-2xl font-bold text-center text-rose-500'>Role: {name}</h1>
+      <p className='text-sm text-gray-100'>{description}</p>
       <div className='font-light'>
         {seniorityLevelsData !== null && (
           <>
+            <div className='flex justify-center mt-8'>
+              <Button type='button' onClick={() => setOpen(true)} className='mx-auto '>
+                Add seniority level
+              </Button>
+            </div>
             <div className='mb-3'>
-              <hr />
               {seniorityLevelsData.map((roleSeniorityLevel) => (
-                <div key={roleSeniorityLevel.id}>
+                <div className='p-6 my-6 rounded-lg bg-background-2' key={roleSeniorityLevel.id}>
                   <RoleSeniorityLevelCard
                     id={roleSeniorityLevel.id}
                     name={roleSeniorityLevel.seniority_level.name}
@@ -73,14 +89,8 @@ export const RoleManage = ({ id, name, description, allSeniorityLevels }: Props)
                     removeSkill={removeSkill}
                     availableSkills={availableSkillsData || []}
                   />
-                  <hr />
                 </div>
               ))}
-            </div>
-            <div className='flex justify-center mt-8'>
-              <Button type='button' onClick={() => setOpen(true)} className='mx-auto '>
-                Add seniority level
-              </Button>
             </div>
             <Modal open={open} onClose={() => setOpen(false)}>
               <AddSeniorityLevelForm
