@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { TbChevronDown, TbCirclePlus } from 'react-icons/tb';
-import { Chip, Modal } from '@mui/material';
+import { Chip } from '@mui/material';
+import { Modal } from '@/components/Modal';
+import { CgCloseO } from 'react-icons/cg';
 import { AddSkillToSeniorityLevel } from '@components/AddSkillToSeniorityLevel';
 
 interface Props {
@@ -33,46 +35,58 @@ export const RoleSeniorityLevelCard = ({
     setModalOpen(false);
   };
   return (
-    <>
-      <button type='button' className='text-left w-full' onClick={() => setShowDetails(!showDetails)}>
-        <h4 className='text-xl py-4'>
-          {name} Level{' '}
-          <TbChevronDown className={`inline text-rose-500 transition-all ${showDetails && 'rotate-180'}`} />
+    <div>
+      <button type='button' className='w-full text-left' onClick={() => setShowDetails(!showDetails)}>
+        <h4 className='text-xl font-medium'>
+          {name} Level <TbChevronDown className={`inline text-primary transition-all ${showDetails && 'rotate-180'}`} />
         </h4>
       </button>
       {showDetails && (
-        <div className='text-sm text-gray-500 mb-6'>
+        <div className='text-sm text-gray-200'>
           <p>descripción: {description}</p>
-          <div className='flex flex-wrap items-center gap-1'>
+          <div className='flex flex-wrap items-center gap-1 text-white'>
             skills:{' '}
             {skills.map((skill: any) => (
               <Chip
                 key={skill.id}
                 label={skill.name}
+                deleteIcon={<CgCloseO className='' />}
                 size='small'
                 variant='outlined'
                 onDelete={() => {
                   removeSkill(id, skill.id);
                 }}
-                sx={{ borderColor: 'rgb(244 63 94)' }}
+                sx={{
+                  backgroundColor: '#4a4a4a',
+                  borderColor: '#FF2965',
+                  color: 'white',
+                  '&	.MuiChip-deleteIcon': {
+                    color: 'white',
+                  },
+                }}
               />
             ))}
             <Chip
-              icon={<TbCirclePlus />}
+              icon={<TbCirclePlus className='text-red-500' />}
               label='Add skill'
               size='small'
               onClick={() => {
                 setModalOpen(true);
+              }}
+              sx={{
+                backgroundColor: '#4a4a4a',
+                color: 'white',
+                '&	.MuiChip-icon': {
+                  color: 'white',
+                },
               }}
             />
           </div>
         </div>
       )}
       <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-        <div className='absolute p-8 bg-white rounded-md -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2'>
-          <AddSkillToSeniorityLevel addSkill={handleAddSkill} availableSkills={availableSkills} />
-        </div>
+        <AddSkillToSeniorityLevel addSkill={handleAddSkill} availableSkills={availableSkills} />
       </Modal>
-    </>
+    </div>
   );
 };

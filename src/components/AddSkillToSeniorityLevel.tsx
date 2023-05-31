@@ -1,5 +1,6 @@
 import { Chip } from '@mui/material';
 import { useState } from 'react';
+import { Button } from '@/components/Button';
 
 interface Props {
   addSkill: (skillId: number) => void;
@@ -20,14 +21,18 @@ export const AddSkillToSeniorityLevel = ({ addSkill, availableSkills }: Props) =
                 size='small'
                 variant='outlined'
                 onClick={() => setSelectedSkill(skill.id)}
-                sx={selectedSkill === skill.id ? { borderColor: 'rgb(244 63 94)' } : {}}
+                sx={
+                  selectedSkill === skill.id
+                    ? { borderColor: 'rgb(244 63 94)', color: 'white' }
+                    : { backgroundColor: '#4a4a4a', color: 'white' }
+                }
               />
             ))}
       </div>
-      <button
+      <Button
         type='button'
         disabled={selectedSkill === null}
-        className='flex items-center gap-2 px-4 text-white rounded-full bg-rose-600 mx-auto'
+        className='flex items-center gap-2 px-4 mx-auto text-white rounded-full bg-rose-600'
         onClick={() => {
           if (selectedSkill) {
             addSkill(selectedSkill);
@@ -35,7 +40,7 @@ export const AddSkillToSeniorityLevel = ({ addSkill, availableSkills }: Props) =
         }}
       >
         Add skill
-      </button>
+      </Button>
     </>
   );
 };

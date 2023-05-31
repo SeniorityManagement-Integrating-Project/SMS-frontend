@@ -18,8 +18,8 @@ export const useFetch = <T>(url: string, componentIsReady: boolean = true) => {
           }
           return response.json();
         })
-        .then((response_data) => setData(response_data))
-        .catch((response_error) => setError(response_error))
+        .then((responseData) => setData(responseData))
+        .catch((responseError) => setError(responseError))
         .finally(() => setLoading(false));
     }
 

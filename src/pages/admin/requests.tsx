@@ -1,7 +1,9 @@
+import React from 'react';
 import { Loader } from '@/components/Loader';
 import { SkillRequestAdminCard } from '@components/SkillRequestAdminCard';
 import { useFetch } from '@/hooks/useFetch';
-import React from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Masonry } from 'react-plock';
 
 const Requests = () => {
   const { data, loading, error, reload } = useFetch<any>(`${process.env.NEXT_PUBLIC_API_URL}/request/pending/`);
@@ -15,30 +17,35 @@ const Requests = () => {
   } else if (data.length === 0) {
     content = <p className='py-5 text-center'>No requests found</p>;
   } else {
+    const requests = data.sort((a: any, b: any) => (b.created_at > a.created_at ? -1 : 1));
     content = (
-      <>
-        {data
-          .sort((a: any, b: any) => (a.created_at < b.created_at ? 1 : -1))
-          .map((request: any) => (
-            <SkillRequestAdminCard
-              key={request.id}
-              requestID={request.id}
-              requestedAt={request.created_at}
-              employee={request.employee}
-              skill={request.skill}
-              comments={request.comments}
-              supportFile={request.support_file}
-              reload={reload}
-            />
-          ))}
-      </>
+      <Masonry
+        config={{
+          columns: [1, 2, 3],
+          media: [900, 1200, 1600],
+          gap: [20, 20, 20],
+        }}
+        items={requests}
+        render={(request: any, index) => (
+          <SkillRequestAdminCard
+            key={index}
+            requestID={request.id}
+            requestedAt={request.created_at}
+            employee={request.employee}
+            skill={request.skill}
+            comments={request.comments}
+            supportFile={request.support_file}
+            reload={reload}
+          />
+        )}
+      />
     );
   }
 
   return (
-    <div>
+    <div className='p-4'>
       <h1 className='mx-auto my-4 text-2xl font-bold text-center text-rose-500'>Pending Requests</h1>
-      <div className='flex flex-wrap justify-center'>{content}</div>
+      {content}
     </div>
   );
 };

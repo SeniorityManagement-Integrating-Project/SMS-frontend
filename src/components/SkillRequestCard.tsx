@@ -29,8 +29,8 @@ export const SkillRequestCard = ({
   supportFile,
   validator,
 }: Props) => (
-  <div className='shadow-[0px_0px_15px_0px] rounded-lg m-6 p-4 shadow-gray-200 bg-gray-100 border-gray-200 border flex justify-between'>
-    <div className='flex flex-col justify-center gap-2 text-sm text-gray-600'>
+  <div className='p-6 m-6 rounded-lg bg-background-2 flex justify-between'>
+    <div className='flex flex-col justify-center gap-2 text-sm'>
       <div>
         <h2 className='text-xl font-bold'>{skillName}</h2>
         <p>{skillDescription}</p>
@@ -62,7 +62,7 @@ export const SkillRequestCard = ({
     <div className='flex flex-col items-center justify-between gap-8'>
       <RequestStatusBadge approved={approved} validated={validated} />
       <Tooltip title={supportFile} arrow>
-        <div className='text-3xl text-gray-600'>
+        <div className='text-3xl text-gray-300'>
           <TbFile />
           <TbPdf />
         </div>

@@ -6,6 +6,8 @@ import * as process from 'process';
 import { useInput } from '@hooks/useInput';
 import { FormEvent } from 'react';
 import { RequestCommentList } from '@components/RequestCommentList';
+import { swal2Config } from '@/config/swal2Config';
+import { Button } from '@components/Button';
 
 interface Props {
   requestID: number;
@@ -15,10 +17,20 @@ interface Props {
   comments: any[];
   supportFile?: string;
   reload: () => void;
+  className?: string;
 }
 
-const SkillRequestAdminCard = ({ requestID, requestedAt, employee, skill, comments, supportFile, reload }: Props) => {
-  const comment = useInput({ type: 'text', initialValue: '', name: 'comment', placeholder: 'write a new comment' });
+const SkillRequestAdminCard = ({
+  requestID,
+  requestedAt,
+  employee,
+  skill,
+  comments,
+  supportFile,
+  reload,
+  className,
+}: Props) => {
+  const comment = useInput({ type: 'text', initialValue: '', name: 'comment', placeholder: 'Leave a new comment' });
   const Approved = async (approved: boolean) => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/request/${requestID}`, {
       method: 'PATCH',
@@ -36,19 +48,20 @@ const SkillRequestAdminCard = ({ requestID, requestedAt, employee, skill, commen
 
   const validate = () => {
     Swal.fire({
+      ...swal2Config,
       title: 'The request will be?',
       showDenyButton: true,
       showCancelButton: true,
+      confirmButtonColor: '#22C55E',
       confirmButtonText: '<b>Approved</b>',
       denyButtonText: `<b>Denied</b>`,
-      confirmButtonColor: '#22c55e',
-      denyButtonColor: '#e11d48',
     }).then((result) => {
       if (result.isConfirmed) {
         (async () => {
           const { response, data } = await Approved(true);
           if (response.status === 200) {
             Swal.fire({
+              ...swal2Config,
               title: 'Request Approved!',
               icon: 'success',
               didDestroy() {
@@ -56,7 +69,7 @@ const SkillRequestAdminCard = ({ requestID, requestedAt, employee, skill, commen
               },
             });
           } else {
-            Swal.fire('Oops! Something went wrong', `${data.message}`, 'error');
+            Swal.fire({ ...swal2Config, title: 'Oops! Something went wrong', text: `${data.message}`, icon: 'error' });
           }
         })();
       } else if (result.isDenied) {
@@ -64,6 +77,7 @@ const SkillRequestAdminCard = ({ requestID, requestedAt, employee, skill, commen
           const { response, data } = await Approved(false);
           if (response.status === 200) {
             Swal.fire({
+              ...swal2Config,
               title: 'Request Denied!',
               icon: 'success',
               didDestroy() {
@@ -71,7 +85,7 @@ const SkillRequestAdminCard = ({ requestID, requestedAt, employee, skill, commen
               },
             });
           } else {
-            Swal.fire('Oops! Something went wrong', `${data.message}`, 'error');
+            Swal.fire({ ...swal2Config, title: 'Oops! Something went wrong', text: `${data.message}`, icon: 'error' });
           }
         })();
       }
@@ -95,43 +109,43 @@ const SkillRequestAdminCard = ({ requestID, requestedAt, employee, skill, commen
       comment.setValue('');
       reload();
     } else {
-      Swal.fire('Oops! Something went wrong', `${data.message}`, 'error');
+      Swal.fire({ ...swal2Config, title: 'Oops! Something went wrong', text: `${data.message}`, icon: 'error' });
     }
   };
 
   return (
-    <div className='shadow-[0px_0px_15px_0px] rounded-lg m-6 p-4 shadow-gray-200 bg-gray-100 border-gray-200 border w-96 flex flex-col overflow-hidden'>
+    <div className={`relative p-6 rounded-lg bg-background-2 text-white ${className}`}>
+      <h3 className='mb-4 text-lg font-bold text-center'>Request by {employee.name}</h3>
       <p>
-        <span className='font-bold'>Date:</span> {formatDate(requestedAt)}
+        <span className='font-bold'>Skill:</span> <span className='font-light'>{skill.name}</span>
       </p>
       <p>
-        <span className='font-bold'>Employee:</span> {employee.name}
-      </p>
-      <p>
-        <span className='font-bold'>Skill:</span> {skill.name}
+        <span className='font-bold'>Date:</span> <span className='font-light'>{formatDate(requestedAt)}</span>
       </p>
       <p className='whitespace-nowrap'>
         <span className='font-bold'>Support File: </span>
         <span className='underline text-rose-500'>{supportFile}</span>
       </p>
-      <p className='font-bold'>Comments:</p>
-      <RequestCommentList comments={comments} />
-      <form className='flex items-center gap-3 mt-auto' onSubmit={submitComment}>
+      {comments.length > 0 && (
+        <>
+          <p className='font-bold'>Comments:</p>
+          <RequestCommentList comments={comments} />
+        </>
+      )}
+      <form className='flex items-center gap-3 my-4' onSubmit={submitComment}>
         <input
-          className='grow bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2 focus:border-b-rose-600 focus:outline-rose-600'
+          className='bg-background-3 border border-gray-300 text-gray-200 text-sm rounded-lg w-full p-2.5 focus:border-b-primary focus:outline-primary'
           {...comment}
         />
         <button type='submit'>
           <TbSend size={25} />
         </button>
       </form>
-      <button
-        type='button'
-        className='px-5 py-2 mt-3 text-lg text-white font-bold rounded-lg bg-rose-500 hover:bg-rose-600'
-        onClick={validate}
-      >
-        Validate
-      </button>
+      <div className='flex justify-center'>
+        <Button type='button' onClick={validate}>
+          Validate
+        </Button>
+      </div>
     </div>
   );
 };

@@ -5,10 +5,15 @@ import Swal from 'sweetalert2';
 import { BasicForm } from '@/components/BasicForm';
 import { BasicCard } from '@/components/BasicCard';
 import Link from 'next/link';
+import { Button } from '@/components/Button';
+import { Modal } from '@/components/Modal';
+import { swal2Config } from '@/config/swal2Config';
+import { useState } from 'react';
 
 const Roles = () => {
   const router = useRouter();
   const { data, loading, error, reload } = useFetch<any>(`${process.env.NEXT_PUBLIC_API_URL}/role/`, router.isReady);
+  const [openModal, setOpenModal] = useState(false);
   const handleDelete = (id: number) => {
     const deleteRole = async () => {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/role/${id}`, {
@@ -18,6 +23,7 @@ const Roles = () => {
         reload();
         const deleteData = await response.json();
         await Swal.fire({
+          ...swal2Config,
           title: 'Deleted!',
           text: `The role ${deleteData.name} has been deleted successfully.`,
           icon: 'success',
@@ -28,6 +34,7 @@ const Roles = () => {
     deleteRole().then(() => reload());
   };
   const handleSubmit = ({ name, description }: { name: string; description: string }) => {
+    setOpenModal(false);
     const createRole = async () => {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/role/`, {
         method: 'POST',
@@ -42,6 +49,7 @@ const Roles = () => {
       const createData = await response.json();
       if (response.status === 200) {
         await Swal.fire({
+          ...swal2Config,
           title: 'Created!',
           text: `The role ${createData.name} has been created successfully.`,
           icon: 'success',
@@ -49,6 +57,7 @@ const Roles = () => {
         });
       } else if (response.status === 409) {
         await Swal.fire({
+          ...swal2Config,
           title: 'Error!',
           text: `${createData.message}`,
           icon: 'error',
@@ -70,30 +79,34 @@ const Roles = () => {
         {data.length === 0 ? (
           <p>No roles found</p>
         ) : (
-          <div className='flex flex-wrap justify-center gap-2 p-4 '>
+          <>
+            <div className='flex justify-center mb-8'>
+              <Button onClick={() => setOpenModal(true)}>Add a new Role</Button>
+            </div>
             {data.map((role: any) => (
-              <div key={role.id} className='flex items-stretch'>
-                <BasicCard
-                  title={
-                    <Link href={`/admin/role/${role.id}`} key={role.id} className='flex items-stretch'>
-                      {role.name}
-                    </Link>
-                  }
-                  text={role.description}
-                  handleDelete={() => handleDelete(role.id)}
-                />
-              </div>
+              <BasicCard
+                title={
+                  <Link href={`/admin/role/${role.id}`} key={role.id} className='flex items-stretch'>
+                    {role.name}
+                  </Link>
+                }
+                key={role.id}
+                text={role.description}
+                handleDelete={() => handleDelete(role.id)}
+              />
             ))}
-          </div>
+          </>
         )}
-        <BasicForm onSubmit={handleSubmit} />
+        <Modal open={openModal} onClose={() => setOpenModal(false)}>
+          <BasicForm onSubmit={handleSubmit} />
+        </Modal>
       </>
     );
   }
   return (
     <main>
       <h1 className='mx-auto my-4 text-2xl font-bold text-center text-rose-500'>Roles</h1>
-      {content}
+      <div className='px-6'>{content}</div>
     </main>
   );
 };

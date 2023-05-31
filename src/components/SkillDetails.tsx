@@ -7,11 +7,9 @@ import { RequestCard } from '@/components/RequestCard';
 interface Props {
   skillId: number;
   employeeId: number;
-  handleCloseModal: () => void;
-  handleOpenReqModal: () => void;
 }
 
-export const SkillDetails = ({ employeeId, skillId, handleCloseModal, handleOpenReqModal }: Props) => {
+export const SkillDetails = ({ employeeId, skillId }: Props) => {
   const router = useRouter();
   const { data, loading }: { data: any; loading: boolean } = useFetch(
     `${process.env.NEXT_PUBLIC_API_URL}/skill/employee_request/${skillId}/${employeeId}`,
@@ -21,13 +19,13 @@ export const SkillDetails = ({ employeeId, skillId, handleCloseModal, handleOpen
     <Loader />
   ) : (
     <article>
-      <div className='pb-2 mb-4 border-b border-gray-600'>
+      <div className='pb-2 mb-4 border-b border-gray-500'>
         <h1 className='text-xl font-bold'>{data.name}</h1>
-        <p className='text-xs text-gray-600'>{data.description}</p>
+        <p className='text-xs text-gray-300'>{data.description}</p>
       </div>
       <h2 className='font-bold text-md'>Requests:</h2>
       {data.employee_requests.length > 0 ? (
-        <ul className='ml-2'>
+        <ul>
           {data.employee_requests.map((request: any) => (
             <li key={request.id}>
               <RequestCard
@@ -42,20 +40,6 @@ export const SkillDetails = ({ employeeId, skillId, handleCloseModal, handleOpen
         </ul>
       ) : (
         <p>There are no requests for this skill</p>
-      )}
-      {!data.employee_requests.some((req: any) => req.approved === true) && (
-        <div className='flex justify-center mt-5'>
-          <button
-            type='button'
-            className='underline text-rose-500'
-            onClick={() => {
-              handleCloseModal();
-              handleOpenReqModal();
-            }}
-          >
-            Request validation for this skill
-          </button>
-        </div>
       )}
     </article>
   );
