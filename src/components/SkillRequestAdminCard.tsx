@@ -115,7 +115,7 @@ const SkillRequestAdminCard = ({
 
   return (
     <div className={`relative p-6 rounded-lg bg-background-2 text-white ${className}`}>
-      <h3 className='text-center font-bold text-lg mb-4'>Request by {employee.name}</h3>
+      <h3 className='mb-4 text-lg font-bold text-center'>Request by {employee.name}</h3>
       <p>
         <span className='font-bold'>Skill:</span> <span className='font-light'>{skill.name}</span>
       </p>

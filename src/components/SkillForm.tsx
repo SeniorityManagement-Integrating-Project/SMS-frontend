@@ -2,6 +2,7 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import React, { useState } from 'react';
 import { swal2Config } from '@/config/swal2Config';
+import { Button } from '@/components/Button';
 
 const SkillForm = ({ onSubmit }: { onSubmit: () => void }) => {
   const [form, setForm] = useState({ name: '', description: '' });
@@ -80,9 +81,9 @@ const SkillForm = ({ onSubmit }: { onSubmit: () => void }) => {
       </div>
 
       <div className='flex justify-center mt-4'>
-        <button type='submit' className='w-32 px-5 py-2 text-lg text-white rounded-full bg-rose-600 '>
+        <Button type='submit' className='w-32 px-5 py-2 text-lg text-white rounded-full bg-rose-600 '>
           Create
-        </button>
+        </Button>
       </div>
     </form>
   );
