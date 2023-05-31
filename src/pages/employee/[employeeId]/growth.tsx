@@ -19,9 +19,10 @@ const Growth = () => {
   } else if (data.length === 0) {
     content = <p className='py-5 text-center'>No growth path found</p>;
   } else {
-    const firstNotAchivedLevel = data
-      .sort((a: any, b: any) => a.level - b.level)
-      .find((level: any) => level.skills.some((skill: any) => !skill.is_attained)).level;
+    const firstNotAchievedLevel =
+      data
+        .sort((a: any, b: any) => a.level - b.level)
+        .find((level: any) => level.skills.some((skill: any) => !skill.is_attained))?.level || data.length + 1;
     content = (
       <>
         {data.map((level: any) => (
@@ -30,7 +31,7 @@ const Growth = () => {
             name={level.level_name}
             description={level.description}
             level={level.level}
-            completed={level.level < firstNotAchivedLevel}
+            completed={level.level < firstNotAchievedLevel}
             skills={level.skills}
           />
         ))}
