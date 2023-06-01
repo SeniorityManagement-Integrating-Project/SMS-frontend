@@ -38,8 +38,8 @@ const Role = () => {
       )}
       <AboutPageTooltip>
         <p className='text-sm'>
-          Here you can manage the role, by adding seniority levels to the role, you can also add the skills that are
-          required to reach that level.
+          Here you can manage a role by adding seniority levels, you can also add and remove the skills that are
+          required to reach each level.
         </p>
       </AboutPageTooltip>
     </main>
