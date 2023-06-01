@@ -8,7 +8,8 @@ import Link from 'next/link';
 import { Button } from '@/components/Button';
 import { Modal } from '@/components/Modal';
 import { swal2Config } from '@/config/swal2Config';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { AboutPageTooltip } from '@components/AboutPageTooltip';
 
 const Roles = () => {
   const router = useRouter();
@@ -107,6 +108,12 @@ const Roles = () => {
     <main>
       <h1 className='mx-auto my-4 text-2xl font-bold text-center text-rose-500'>Roles</h1>
       <div className='px-6'>{content}</div>
+      <AboutPageTooltip>
+        <p className='text-sm'>
+          Here you can see all the roles that are available in the system. You can also add a new role by clicking on
+          the button above.
+        </p>
+      </AboutPageTooltip>
     </main>
   );
 };

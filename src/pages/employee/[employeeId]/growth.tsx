@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { SeniorityLevelEmployeeCard } from '@/components/SeniorityLevelEmployeeCard';
 import { Loader } from '@/components/Loader';
 import { useFetch } from '@/hooks/useFetch';
+import { AboutPageTooltip } from '@components/AboutPageTooltip';
 
 const Growth = () => {
   const router = useRouter();
@@ -43,6 +44,13 @@ const Growth = () => {
     <main>
       <h1 className='mx-auto my-4 text-2xl font-bold text-center text-primary'>Growth path</h1>
       {content}
+      <AboutPageTooltip>
+        <p className='text-sm'>
+          This is your growth path, here you can explore your existing skills and submit requests for validation of
+          those you have not yet achieved. To validate these skills, simply upload a supporting file that serves as
+          evidence of your proficiency in that particular area.
+        </p>
+      </AboutPageTooltip>
     </main>
   );
 };

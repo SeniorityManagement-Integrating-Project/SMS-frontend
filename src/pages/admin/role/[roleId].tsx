@@ -1,8 +1,9 @@
-import { useRouter } from 'next/router';
 import React from 'react';
+import { useRouter } from 'next/router';
 import { RoleManage } from '@/components/RoleManage';
 import { useFetch } from '@/hooks/useFetch';
-import { Loader } from '@components/Loader';
+import { Loader } from '@/components/Loader';
+import { AboutPageTooltip } from '@/components/AboutPageTooltip';
 
 const Role = () => {
   const router = useRouter();
@@ -26,16 +27,22 @@ const Role = () => {
     return <Loader />;
   }
   return (
-    roleId && (
-      <main className='p-6'>
+    <main className='p-4'>
+      {roleId && (
         <RoleManage
           id={roleId}
           name={role.name}
           description={role.description}
           allSeniorityLevels={allSeniorityLevels}
         />
-      </main>
-    )
+      )}
+      <AboutPageTooltip>
+        <p className='text-sm'>
+          Here you can manage the role, by adding seniority levels to the role, you can also add the skills that are
+          required to reach that level.
+        </p>
+      </AboutPageTooltip>
+    </main>
   );
 };
 

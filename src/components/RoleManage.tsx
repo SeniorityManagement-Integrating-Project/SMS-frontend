@@ -68,7 +68,7 @@ export const RoleManage = ({ id, name, description, allSeniorityLevels }: Props)
   return (
     <>
       <h1 className='mx-auto my-4 text-2xl font-bold text-center text-rose-500'>Role: {name}</h1>
-      <p className='text-sm text-gray-100'>{description}</p>
+      <p className='text-sm text-center text-gray-100'>{description}</p>
       <div className='font-light'>
         {seniorityLevelsData !== null && (
           <>
