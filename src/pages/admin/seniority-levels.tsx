@@ -1,6 +1,8 @@
 import { Loader } from '@/components/Loader';
 import { useFetch } from '@/hooks/useFetch';
 import { useRouter } from 'next/router';
+import { AboutPageTooltip } from '@components/AboutPageTooltip';
+import React from 'react';
 
 const SeniorityLevels = () => {
   const router = useRouter();
@@ -26,6 +28,9 @@ const SeniorityLevels = () => {
     <main>
       <h1 className='mx-auto my-4 text-2xl font-bold text-center text-rose-500'>Seniority levels</h1>
       {content}
+      <AboutPageTooltip>
+        <p className='text-sm'>Here you can see all the seniority levels that are available in the company.</p>
+      </AboutPageTooltip>
     </main>
   );
 };

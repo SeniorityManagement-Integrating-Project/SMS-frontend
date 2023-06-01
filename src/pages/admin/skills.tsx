@@ -6,8 +6,9 @@ import Swal from 'sweetalert2';
 import { BasicForm } from '@/components/BasicForm';
 import { swal2Config } from '@/config/swal2Config';
 import { Modal } from '@components/Modal';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@components/Button';
+import { AboutPageTooltip } from '@components/AboutPageTooltip';
 
 const Skills = () => {
   const router = useRouter();
@@ -103,6 +104,12 @@ const Skills = () => {
     <main className='px-6'>
       <h1 className='mx-auto my-4 text-2xl font-bold text-center text-rose-500'>Skills</h1>
       {content}
+      <AboutPageTooltip>
+        <p className='text-sm'>
+          Here can see all the skills available on the system. You can create a new skill by clicking on the button
+          above. You can also delete a skill by clicking on the X icon.
+        </p>
+      </AboutPageTooltip>
     </main>
   );
 };

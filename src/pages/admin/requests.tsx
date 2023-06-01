@@ -4,6 +4,7 @@ import { SkillRequestAdminCard } from '@components/SkillRequestAdminCard';
 import { useFetch } from '@/hooks/useFetch';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Masonry } from 'react-plock';
+import { AboutPageTooltip } from '@components/AboutPageTooltip';
 
 const Requests = () => {
   const { data, loading, error, reload } = useFetch<any>(`${process.env.NEXT_PUBLIC_API_URL}/request/pending/`);
@@ -43,10 +44,16 @@ const Requests = () => {
   }
 
   return (
-    <div className='p-4'>
+    <main className='p-4'>
       <h1 className='mx-auto my-4 text-2xl font-bold text-center text-rose-500'>Pending Requests</h1>
       {content}
-    </div>
+      <AboutPageTooltip>
+        <p className='text-sm'>
+          Here you can see all the skill validation requests that have been submitted by employees. You can also approve
+          or reject each request and leave a comment for the employee.
+        </p>
+      </AboutPageTooltip>
+    </main>
   );
 };
 

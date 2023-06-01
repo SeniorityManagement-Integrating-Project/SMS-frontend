@@ -4,6 +4,7 @@ import { useFetch } from '@/hooks/useFetch';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { AboutPageTooltip } from '@components/AboutPageTooltip';
 
 const Requests = () => {
   const router = useRouter();
@@ -44,7 +45,7 @@ const Requests = () => {
   }
 
   return (
-    <div>
+    <main>
       <h1 className='mx-auto my-4 text-2xl font-bold text-center text-rose-500'>Skill validation requests</h1>
       {content}
       <p className='mx-auto text-center'>
@@ -53,7 +54,13 @@ const Requests = () => {
           growth section
         </Link>
       </p>
-    </div>
+      <AboutPageTooltip>
+        <p className='text-sm'>
+          Here you can see all the requests you have submitted for validation of your skills. You can also see the
+          status of each request and the comments left by the validator.
+        </p>
+      </AboutPageTooltip>
+    </main>
   );
 };
 
