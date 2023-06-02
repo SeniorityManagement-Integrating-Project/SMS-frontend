@@ -45,13 +45,13 @@ const Info = () => {
     setLoadingRoles(false);
   };
 
-  const setEmployee = async (form: Form) => {
+  const setEmployee = async (formParameter: Form) => {
     const response = await fetch(`/api/employee/setEmployee`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(form),
+      body: JSON.stringify(formParameter),
     });
     if (response.status === 200) {
       router.push(`/profile/${user?.sub?.slice(6)}`);
