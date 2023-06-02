@@ -1,43 +1,40 @@
 import LoginLogout from '@/components/LoginLogout';
 import { useUser } from '@auth0/nextjs-auth0/client';
-import { create } from 'domain';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { ChangeEventHandler, useEffect, useState } from 'react';
 
-const info = () => {
+const Info = () => {
   const [form, setForm] = useState({ name: '', email: '', biography: '', role: '' });
-  const [roles, setRoles] = useState([]); // Example roles, you can replace them with your actual roles
-  const { user, error, isLoading } = useUser();
+  const [roles, setRoles] = useState<Role[]>([]);
+  const [loadingRoles, setLoadingRoles] = useState(true);
+  const { user, isLoading } = useUser();
   const router = useRouter();
-
-  // const handleDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-  //   setDescription(event.target.value);
-  // };
 
   const handleRoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setForm({ ...form, role: event.target.value });
   };
 
-  const handleBiographyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleBiographyChange: ChangeEventHandler<HTMLTextAreaElement> = (event) => {
     setForm({ ...form, biography: event.target.value });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Send the form data to your backend API for further processing and database storage
-    // You can use an HTTP library like Axios to make the API request
-    // Example: axios.post('/api/signup', { description, role: selectedRole });
-    setEmployee();
+    setEmployee(form);
   };
 
   const getEmployeeByEmail = async () => {
     if (!isLoading) {
       const response = await fetch(`/api/employee/getEmployeeByEmail?userEmail=${user?.email}`);
       if (response.status !== 404) {
-        router.push(`/profile/${user.sub?.slice(6)}`);
+        router.push(`/profile/${user?.sub?.slice(6)}`);
       }
-      const data = await response.json();
-      setForm({ name: user?.name, email: user?.email, biography: '', role: '' });
+      setForm({
+        name: user?.name ?? '',
+        email: user?.email ?? '',
+        biography: '',
+        role: '',
+      });
     }
   };
 
@@ -45,9 +42,10 @@ const info = () => {
     const response = await fetch(`/api/role/getAllRoles`);
     const data = await response.json();
     setRoles(data);
+    setLoadingRoles(false);
   };
 
-  const setEmployee = async () => {
+  const setEmployee = async (form: Form) => {
     const response = await fetch(`/api/employee/setEmployee`, {
       method: 'POST',
       headers: {
@@ -56,7 +54,7 @@ const info = () => {
       body: JSON.stringify(form),
     });
     if (response.status === 200) {
-      router.push(`/profile/${user.sub?.slice(6)}`);
+      router.push(`/profile/${user?.sub?.slice(6)}`);
     }
   };
 
@@ -107,11 +105,15 @@ const info = () => {
                 className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:border-b-rose-600 focus:outline-rose-600'
               >
                 <option value=''>Select a role</option>
-                {roles.map((role) => (
-                  <option key={role.id} value={role.id}>
-                    {role.name}
-                  </option>
-                ))}
+                {loadingRoles ? (
+                  <option value=''>Loading roles...</option>
+                ) : (
+                  roles.map((role) => (
+                    <option key={role.id} value={role.id}>
+                      {role.name}
+                    </option>
+                  ))
+                )}
               </select>
             </label>
           </div>
@@ -139,4 +141,16 @@ const info = () => {
   );
 };
 
-export default info;
+export default Info;
+
+interface Role {
+  id: string;
+  name: string;
+}
+
+interface Form {
+  name: string;
+  email: string;
+  biography: string;
+  role: string;
+}
