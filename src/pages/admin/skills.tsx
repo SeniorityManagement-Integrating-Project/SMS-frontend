@@ -28,7 +28,7 @@ const Skills = () => {
   };
   const handleSubmit = ({ name, description }: { name: string; description: string }) => {
     const createSkill = async () => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/skill/`, {
+      const response = await fetch(`../api/skill/setSkill`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
