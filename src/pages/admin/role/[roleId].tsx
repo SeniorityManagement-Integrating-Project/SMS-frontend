@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { RoleManage } from '@/components/RoleManage';
 import { useFetch } from '@/hooks/useFetch';
 import { Loader } from '@/components/Loader';
-import { AboutPageTooltip } from '@/components/AboutPageTooltip';
+import { AboutPageTooltip } from '@components/AboutPageTooltip';
 
 const Role = () => {
   const router = useRouter();
