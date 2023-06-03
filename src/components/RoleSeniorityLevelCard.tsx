@@ -43,7 +43,7 @@ export const RoleSeniorityLevelCard = ({
       </button>
       {showDetails && (
         <div className='text-sm text-gray-200'>
-          <p>descripción: {description}</p>
+          <p>description: {description}</p>
           <div className='flex flex-wrap items-center gap-1 text-white'>
             skills:{' '}
             {skills.map((skill: any) => (

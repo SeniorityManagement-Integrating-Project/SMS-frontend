@@ -54,7 +54,7 @@ export const AddSeniorityLevelForm = ({
         </select>
       </div>
       <div className='flex flex-col mb-3'>
-        <label htmlFor='role-seniority-level-description'>Descripción</label>
+        <label htmlFor='role-seniority-level-description'>Description</label>
         <input
           {...description}
           id='role-seniority-level-description'
