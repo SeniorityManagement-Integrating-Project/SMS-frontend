@@ -1,3 +1,4 @@
+import { swal2Config } from '@/config/swal2Config';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
@@ -18,6 +19,7 @@ const SkillCard = ({ title, description, id, reloadSkills }: Props) => {
         reloadSkills();
         const data = await response.json();
         await Swal.fire({
+          ...swal2Config,
           title: 'Deleted!',
           text: `The skill ${data.name} has been deleted successfully.`,
           icon: 'success',
