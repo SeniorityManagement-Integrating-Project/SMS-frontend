@@ -21,7 +21,7 @@ const Home = () => {
     <main>
       <div className='flex flex-col items-center justify-center md:flex-row xl:p-60 xl:pb-10 md:pb-10 md:p-36 p-10 gap-4'>
         <div>
-          <h1 className='lg:text-6xl md:text-5xl text-4xl font-black text-primary mb-6'>Seniority Managament System</h1>
+          <h1 className='lg:text-6xl md:text-5xl text-4xl font-black text-primary mb-6'>Seniority Management System</h1>
           <p>
             Our Seniority Management System is a tool designed to streamline and optimize the management of developer
             seniority within your organization. With this app, you can easily assign levels and skills and track the
