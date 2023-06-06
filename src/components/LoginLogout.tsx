@@ -1,5 +1,6 @@
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Link from 'next/link';
+import { Button } from '@/components/Button';
 
 const LoginLogout = () => {
   const { user, error, isLoading } = useUser();
@@ -8,15 +9,15 @@ const LoginLogout = () => {
   return (
     <div className='my-3'>
       {!user && (
-        <Link href='/api/auth/login' className='w-32 px-5 py-2 text-lg text-white rounded-full bg-rose-600'>
-          Login
-        </Link>
+        <Button>
+          <Link href='/api/auth/login'>Login or Register</Link>
+        </Button>
       )}
 
       {user && (
-        <Link href='/api/auth/logout' className='w-32 px-5 py-2 text-lg text-white rounded-full bg-rose-600'>
-          Logout
-        </Link>
+        <Button>
+          <Link href='/api/auth/logout'>Logout</Link>
+        </Button>
       )}
     </div>
   );
